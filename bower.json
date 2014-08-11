@@ -1,0 +1,13 @@
+{
+    "name": "threedi-unstruc",
+    "private": true,
+    "dependencies": {
+        "bootstrap-sass-official": "~3.1.1",
+        "modernizr": "~2.6.2",
+        "jquery": "~1.11.0",
+        "d3": "~3.4.11",
+        "leaflet": "~0.7.3",
+        "underscore": "~1.6.0"
+    },
+    "devDependencies": {}
+}
