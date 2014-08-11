@@ -56,30 +56,7 @@ renderers["dflowfm"] = function(overlay){
     ws.send(JSON.stringify({"get_var": "xk"}));
     ws.send(JSON.stringify({"get_var": "yk"}));
     ws.send(JSON.stringify({"get_var": "flowelemnode", "copy": true}));
-    var metadata = false;
-    ws.onmessage = function(x){
-        console.log("Got message", x);
-        if (typeof(x.data) == "string") {
-            metadata = JSON.parse(x.data);
-        } 
-        else {
-            if (metadata != false){
-                var arr;
-                if (metadata['dtype'] == 'float64') {
-                    arr = new Float64Array(x.data);
-                }
-                else if (metadata['dtype'] == 'int32') {
-                    arr = new Int32Array(x.data);
-                } else {
-                    console.log("Could not recognize variable", metadata);
-                };
-                vars[metadata['name']] = arr;
-                metadata = false;
-            } else{
-                console.log("data without metadata....");
-            };
-        };
-    };
+    ws.send(JSON.stringify({"get_var": "s1"}));
 };
 
 

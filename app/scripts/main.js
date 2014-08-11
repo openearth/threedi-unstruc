@@ -43,12 +43,33 @@ function overlay(value, index){
 
 var ws;
 function register(value, index) {
-    var url = 'ws://' + tracker + '/mmi/' + index;
+    var url = 'ws://' + tracker + '/mmi/' + value.uuid;
     ws = new WebSocket(url);
     ws.binaryType = "arraybuffer";
     // Call rendering function in the context
-    ws.onmessage = function(evt) {
-        console.log(evt);
+    var metadata = false;
+    ws.onmessage = function(x){
+        console.log("Got message", x);
+        if (typeof(x.data) == "string") {
+            metadata = JSON.parse(x.data);
+        }
+        else {
+            if (metadata != false){
+                var arr;
+                if (metadata['dtype'] == 'float64') {
+                    arr = new Float64Array(x.data);
+                }
+                else if (metadata['dtype'] == 'int32') {
+                    arr = new Int32Array(x.data);
+                } else {
+                    console.log("Could not recognize variable", metadata);
+                };
+                vars[metadata['name']] = arr;
+                metadata = false;
+            } else{
+                console.log("data without metadata....");
+            };
+        };
     };
     // Attach the websocket to the overlay
     this[value.name].options.ws = ws;
