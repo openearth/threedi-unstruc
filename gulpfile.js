@@ -113,7 +113,7 @@ gulp.task('wiredep', function () {
         .pipe(gulp.dest('app'));
 });
 
-gulp.task('watch', ['connect', 'serve'], function () {
+gulp.task('watch', ['build','connect', 'serve'], function () {
     var server = $.livereload();
 
     // watch for changes

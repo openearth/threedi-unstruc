@@ -1,11 +1,11 @@
-var renderers = {};
-var vars = {};
-var grid = null;
-var path = null;
+/* global tracker */
+/* exported renderers */
 
-renderers["dflowfm"] = function(overlay){
+'use strict';
+var renderers = {};
+
+renderers.dflowfm = function(overlay){
     var ws = overlay.options.ws;
-    var info = overlay.options.metadata;
     var map = overlay._map;
     var grid = null;
     var url = 'http://' + tracker + '/models/' + overlay.options.id + '/grid';
@@ -21,7 +21,7 @@ renderers["dflowfm"] = function(overlay){
             this.stream.point(point.x, point.y);
         }
 
-        var transform = d3.geo.transform({point: projectPoint})
+        var transform = d3.geo.transform({point: projectPoint});
         var path = d3.geo.path().projection(transform);
         // Reposition the SVG to cover the features.
         function reset() {
@@ -45,18 +45,18 @@ renderers["dflowfm"] = function(overlay){
                 .data(grid.features)
                 .enter()
                 .append('path')
-                .attr('id', function(feature) {return "c" + feature.properties.index})
+                .attr('id', function(feature) {return 'c' + feature.properties.index;})
                 .attr('d', path);
-        ;
+
         map.on('viewreset', reset);
         reset();
         
     });
-    ws.send(JSON.stringify({"update":-1}));
-    ws.send(JSON.stringify({"get_var": "xk"}));
-    ws.send(JSON.stringify({"get_var": "yk"}));
-    ws.send(JSON.stringify({"get_var": "flowelemnode", "copy": true}));
-    ws.send(JSON.stringify({"get_var": "s1"}));
+    ws.send(JSON.stringify({'update':-1}));
+    ws.send(JSON.stringify({'get_var': 'xk'}));
+    ws.send(JSON.stringify({'get_var': 'yk'}));
+    ws.send(JSON.stringify({'get_var': 'flowelemnode', 'copy': true}));
+    ws.send(JSON.stringify({'get_var': 's1'}));
 };
 
 

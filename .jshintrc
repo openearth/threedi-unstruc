@@ -18,6 +18,7 @@
     "trailing": true,
     "smarttabs": true,
     "jquery": true,
+    "validthis": true,
     "globals": {
         "L": false,
         "d3": false,
