@@ -1,5 +1,5 @@
 /* global renderers */
-/* exported tracker */
+/* exported tracker, overlays, vars */
 'use strict';
 
 // Nice background map
@@ -21,11 +21,12 @@ var map = L.map('map',{
 var tracker = 'localhost:22222';
 // Global list of variables
 var vars = {};
-
+// Current model
+var uuid;
 
 // Generate overlay,  (model, uuid) => marker
 function overlay(value, index){
-    var marker = L.marker(value.location, {title: value.engine, id: index });
+    var marker = L.marker(value.location, {title: value.engine, id: index, uuid: value.uuid });
     marker.options.metadata = value;
     marker.bindPopup(value.description);
     marker.on('click', function(){
@@ -34,15 +35,15 @@ function overlay(value, index){
         if (renderer) {
             renderer(marker);
         }
+        uuid = value.uuid;
     });
     // context
     this[value.name] = marker;
 }
 
-var ws;
 function register(value) {
     var url = 'ws://' + tracker + '/mmi/' + value.uuid;
-    ws = new WebSocket(url);
+    var ws = new WebSocket(url);
     ws.binaryType = 'arraybuffer';
     // Call rendering function in the context
     var metadata = false;
@@ -72,9 +73,10 @@ function register(value) {
     // Attach the websocket to the overlay
     this[value.name].options.ws = ws;
 }
+var overlays = {};
+
 $.getJSON('http://' + tracker + '/models', function(data) {
     // Use overlays as a context
-    var overlays = {};
     _.each(data, overlay, overlays);
     _.each(data, register, overlays);
 
@@ -82,6 +84,38 @@ $.getJSON('http://' + tracker + '/models', function(data) {
 
 
 });
+
+function currentOverlay() {
+    console.log(_.filter(overlays, function(overlay){return overlay.options.uuid === uuid;}));
+    return _.filter(overlays, function(overlay){return overlay.options.uuid === uuid;})[0];
+}
+function play() {
+    currentOverlay().options.ws.send(JSON.stringify({"remote": "play"}));
+}
+function pause() {
+    currentOverlay().options.ws.send(JSON.stringify({"remote": "pause"}));
+}
+
+L.easyButton('fa-pause',
+             function (){
+                 pause();
+             },
+             'Pause'
+            ).setPosition('bottomleft');
+L.easyButton('fa-play',
+             function (){
+                 play();
+             },
+             'Play'
+            ).setPosition('bottomleft');
+L.easyButton('fa-refresh',
+             function (){
+                 update(uuid);
+             },
+             'Update'
+            ).setPosition('bottomleft');
+
+// control.addTo(map);
 
 map.setView([37.9, -122.2], 10);
 
