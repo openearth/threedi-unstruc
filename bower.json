@@ -3,13 +3,16 @@
     "private": true,
     "dependencies": {
         "bootstrap-sass-official": "~3.2.0",
-        "modernizr": "~2.6.2",
+        "modernizr": "~2.7.2",
         "jquery": "~2.1.1",
         "d3": "~3.4.11",
         "leaflet": "~0.7.3",
         "underscore": "~1.6.0",
         "L.EasyButton": "",
-        "fontawesome": "~4.1.0"
+        "fontawesome": "~4.1.0",
+        "angular": "~1.2.22",
+        "foundation": "~5.3.3"
+
     },
     "devDependencies": {}
 }

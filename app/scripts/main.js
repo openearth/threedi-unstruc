@@ -41,6 +41,7 @@ function overlay(value, index){
     this[value.name] = marker;
 }
 
+
 function register(value) {
     var url = 'ws://' + tracker + '/mmi/' + value.uuid;
     var ws = new WebSocket(url);
@@ -114,6 +115,14 @@ L.easyButton('fa-refresh',
              },
              'Update'
             ).setPosition('bottomleft');
+
+
+L.easyButton('fa-bars',
+             function (){
+                 $('#sidebar-wrapper').toggleClass('hidden');
+             },
+             'Menu'
+            ).setPosition('topright');
 
 // control.addTo(map);
 

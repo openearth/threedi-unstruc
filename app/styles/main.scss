@@ -4,6 +4,9 @@ $icon-font-path: "../bower_components/bootstrap-sass-official/vendor/assets/font
 @import "../bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap.scss";
 // endbower
 
+/* @import "../bower_components/foundation/scss/foundation.scss"; */
+/* @import "../bower_components/foundation/scss/normalize.scss"; */
+
 .browsehappy {
     margin: 0.2em 0;
     background: #ccc;
@@ -22,8 +25,13 @@ body {
     margin: 0;
 }
 
+
 #sidebar-wrapper {
-    display: none;
+    padding: 100px;
+    position: absolute;
+    z-index: 1001;
+    width: 100px;
+    height: 100%;
 }
 
 /* pfff do we really need all these nested divs? */

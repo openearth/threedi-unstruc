@@ -1,0 +1,14 @@
+
+.inner-wrap, body, html, .off-canvas-wrap  {
+    /* All this is full screen */
+    height:100%;
+}
+.main-section {
+    /* Compute the height of the section */
+    /* Firefox + IE9 + Chrome */
+    height: calc(100% - 45px);
+}
+#map {
+    /* min-height: 300px; */
+    height: 100%;
+}

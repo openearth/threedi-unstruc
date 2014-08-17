@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js">
+<html class="no-js" ng-app>
   <head>
     <meta charset="utf-8">
     <title>threedi unstruc</title>
@@ -28,6 +28,7 @@
     <script src="bower_components/leaflet/dist/leaflet.js"></script>
     <script src="bower_components/L.EasyButton/easy-button.js"></script>
     <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css">
+    <script src="bower_components/angular/angular.js"></script>
   </head>
   <body>
     <!--[if lt IE 10]>
@@ -37,7 +38,13 @@
     <div id="wrapper">
       <!-- Sidebar -->
       <div id="sidebar-wrapper">
-        <h2>sidebar</h2>
+        <ul ng-repeat="model in models">
+          <li>{{model.name}}
+            <ul ng-repeat="var in model.vars">
+              <li>{{var.name}}</li>
+            </ul>
+          <li/>
+        </ul>
       </div>
       <div id="page-content-wrapper">
         <div class="container-fluid" id="container">
