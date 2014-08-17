@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" ng-app>
+<html class="no-js" ng-app="modelApp">
   <head>
     <meta charset="utf-8">
     <title>threedi unstruc</title>
@@ -7,77 +7,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-    <!-- build:css styles/vendor.css -->
-    <!-- bower:css -->
-    <!-- endbower -->
-    <!-- endbuild -->
 
     <!-- build:css styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/theme-foundation.css">
     <!-- endbuild -->
 
     <!-- build:js scripts/vendor/modernizr.js -->
     <script src="bower_components/modernizr/modernizr.js"></script>
     <!-- endbuild -->
+    <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css">
 
-    <script src="bower_components/underscore/underscore.js"></script>
-    <!-- D3 script -->
-    <script src="bower_components/d3/d3.js"></script>
-    <!-- Leaflet script -->
     <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css">
     <script src="bower_components/leaflet/dist/leaflet.js"></script>
     <script src="bower_components/L.EasyButton/easy-button.js"></script>
-    <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css">
-    <script src="bower_components/angular/angular.js"></script>
-  </head>
-  <body>
-    <!--[if lt IE 10]>
-        <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+    <script src="bower_components/underscore/underscore.js"></script>
 
-    <div id="wrapper">
-      <!-- Sidebar -->
-      <div id="sidebar-wrapper">
-        <ul ng-repeat="model in models">
-          <li>{{model.name}}
-            <ul ng-repeat="var in model.vars">
-              <li>{{var.name}}</li>
-            </ul>
-          <li/>
-        </ul>
-      </div>
-      <div id="page-content-wrapper">
-        <div class="container-fluid" id="container">
-          <div class="row" id="maprow">
-            <div id="map"></div>
-          </div>
-        </div>
+    <link rel="stylesheet" href="styles/custom.css">
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/d3/d3.js"></script>
+
+  </head>
+  <body ng-controller="ModelController">
+
+    <div class="off-canvas-wrap" data-offcanvas>
+      <div class="inner-wrap">
+        <nav class="tab-bar">
+          <section class="middle tab-bar-section">
+            <h1 class="title">San Francisco Community Model</h1>
+          </section>
+
+          <section class="right-small">
+            <a class="right-off-canvas-toggle menu-icon" href="#"><span></span></a>
+          </section>
+        </nav>
+
+        <aside class="right-off-canvas-menu">
+          <ul class="off-canvas-list"   >
+            <li><label> Models <i class="fa fa-refresh" ng-click="updateModels()"></i></label>  </li>
+            <li ng-repeat="model in models" ng-click="toggleModel(model.uuid)" >
+              <a href="#"><i ng-if="model.loaded" class="fa fa-check"></i>{{ model.name }}</a>
+            </li>
+          </ul>
+          <ul class="off-canvas-list" id="x">
+            <li><label>Variables of {{ model.name }} </label></li>
+            <li ng-repeat="(name, var) in vars" >
+              <a href="#">{{ name }}</a>
+            </li>
+          </ul>
+        </aside>
+
+        <section class="main-section">
+          <!-- content goes here -->
+          <div id="map"></div>
+        </section>
+
+        <a class="exit-off-canvas"></a>
+
       </div>
     </div>
-    <!-- build:js scripts/vendor.js -->
-    <!-- bower:js -->
+
     <script src="bower_components/jquery/dist/jquery.js"></script>
-    <!-- endbower -->
-    <!-- endbuild -->
-
-    <!-- build:js scripts/plugins.js -->
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/affix.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/alert.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/dropdown.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tooltip.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/modal.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/transition.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/button.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/popover.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/carousel.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/scrollspy.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/collapse.js"></script>
-    <script src="bower_components/bootstrap-sass-official/assets/javascripts/bootstrap/tab.js"></script>
-    <!-- endbuild -->
-
-    <!-- build:js scripts/main.js -->
+    <script src="bower_components/foundation/js/foundation.min.js"></script>
+    <script src="bower_components/foundation/js/foundation/foundation.offcanvas.js"></script>
+    <script src="scripts/models.js"></script>
+    <script src="scripts/load.js"></script>
+    <script src="scripts/map.js"></script>
     <script src="scripts/renders.js"></script>
-    <script src="scripts/main.js"></script>
-    <!-- endbuild -->
+    <script src="scripts/mmi.js"></script>
   </body>
 </html>
