@@ -12,3 +12,15 @@
     /* min-height: 300px; */
     height: 100%;
 }
+.activemodel {
+    background-color: #111111;
+}
+.activemodel:hover {
+    background-color: black;
+}
+
+path {
+    fill: none;
+    stroke: none;
+    stroke-width:0.1;
+}

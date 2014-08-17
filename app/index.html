@@ -42,15 +42,21 @@
         </nav>
 
         <aside class="right-off-canvas-menu">
+          <form>
           <ul class="off-canvas-list"   >
             <li><label> Models <i class="fa fa-refresh" ng-click="updateModels()"></i></label>  </li>
-            <li ng-repeat="model in models" ng-click="toggleModel(model.uuid)" >
-              <a href="#"><i ng-if="model.loaded" class="fa fa-check"></i>{{ model.name }}</a>
+            <li ng-repeat="model in models" ng-class="{activemodel:selectedModel}" >
+              <a href="#" >
+                <input type="checkbox" ng-model="model.loaded" id="check{{model.uuid}}" ng-click="toggleModel(model.uuid)">
+                <span ng-click="toggleSelection(model.uuid)">{{ model.name }}</span>
+              </a>
             </li>
           </ul>
-          <ul class="off-canvas-list" id="x">
-            <li><label>Variables of {{ model.name }} </label></li>
-            <li ng-repeat="(name, var) in vars" >
+          </form>
+
+          <ul class="off-canvas-list" id="x" ng-if="selectedModel">
+            <li><label>Variables of {{ getModelByUuid(selectedModel).name }} </label></li>
+            <li ng-repeat="(name, var) in getModelByUuid(selectedModel).vars" >
               <a href="#">{{ name }}</a>
             </li>
           </ul>

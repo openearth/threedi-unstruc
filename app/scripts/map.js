@@ -1,3 +1,6 @@
+/* exported map */
+'use strict';
+
 // Nice background map
 var mapbox = L.tileLayer('http://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
@@ -21,7 +24,7 @@ L.easyButton('fa-pause',
                  var loaded = _.where(models, {loaded:true});
                  console.log('Sending pause message to models', loaded);
                  _.each(loaded, function(model){
-                     model.ws.send(JSON.stringify({remote: 'pause'}));
+                     model.pause();
                  });
              },
              'Pause'
@@ -33,13 +36,21 @@ L.easyButton('fa-play',
                  var loaded = _.where(models, {loaded:true});
                  console.log('Sending play message to models', loaded);
                  _.each(loaded, function(model){
-                     model.ws.send(JSON.stringify({remote: 'play'}));
+                     model.play();
                  });
              },
              'Play'
             ).setPosition('bottomleft');
 L.easyButton('fa-refresh',
              function (){
+                 var $scope = angular.element(this.link).scope();
+                 var models = $scope.models;
+                 var loaded = _.where(models, {loaded:true});
+                 console.log('Sending play message to models', loaded);
+                 _.each(loaded, function(model){
+                     model.update();
+                 });
+
                  // update(uuid);
              },
              'Update'

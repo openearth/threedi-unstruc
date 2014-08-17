@@ -1,4 +1,4 @@
-// exports connect, disconnect
+/* exported connect, disconnect */
 'use strict';
 var tracker = 'localhost:22222';
 
@@ -10,21 +10,25 @@ function connect(model){
     model.ws.binaryType = 'arraybuffer';
     model.ws.metadata = false;
 
-    model.ws.onmessage = function(x){
-        console.log('Got message', x);
-        if (typeof(x.data) === 'string') {
-            model.ws.metadata = JSON.parse(x.data);
+    model.ws.onmessage = function(message){
+        var newkey = false;
+        console.log('Got message', message, 'for model', model);
+        if (typeof(message.data) === 'string') {
+            model.ws.metadata = JSON.parse(message.data);
         }
         else {
             if (model.ws.metadata !== false){
                 var arr;
                 if (model.ws.metadata.dtype === 'float64') {
-                    arr = new Float64Array(x.data);
+                    arr = new Float64Array(message.data);
                 }
                 else if (model.ws.metadata.dtype === 'int32') {
-                    arr = new Int32Array(x.data);
+                    arr = new Int32Array(message.data);
                 } else {
                     console.log('Could not recognize variable', model.ws.metadata);
+                }
+                if (!(model.ws.metadata.name in model.vars)) {
+                    newkey = true;
                 }
                 model.vars[model.ws.metadata.name] = arr;
                 model.ws.metadata = false;
@@ -32,13 +36,15 @@ function connect(model){
                 console.log('data without metadata....');
             }
         }
-        model.callback();
+        if (newkey) {
+            model.callback();
+        }
     };
 
 
 }
 
-// Call rendering function in the context
+// Call rendering function in the contemessaget
 
 function disconnect(model) {
     console.log('disconnecting from', model.websocketUrl);
@@ -51,4 +57,4 @@ function disconnect(model) {
     delete model.ws;
     delete model.vars;
 
-};
+}
