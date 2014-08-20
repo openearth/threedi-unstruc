@@ -45,7 +45,7 @@
           <form>
           <ul class="off-canvas-list"   >
             <li><label> Models <i class="fa fa-refresh" ng-click="updateModels()"></i></label>  </li>
-            <li ng-repeat="model in models" ng-class="{activemodel:selectedModel}" >
+            <li ng-repeat="model in models" ng-class="{activemodel:(model.uuid == selectedModel)}" >
               <a href="#" >
                 <input type="checkbox" ng-model="model.loaded" id="check{{model.uuid}}" ng-click="toggleModel(model.uuid)">
                 <span ng-click="toggleSelection(model.uuid)">{{ model.name }}</span>
