@@ -1,7 +1,7 @@
+/* global tracker */
 /* exported connect, disconnect */
-'use strict';
-var tracker = 'localhost:22222';
 
+'use strict';
 function connect(model){
     model.websocketUrl = 'ws://' + tracker + '/mmi/' + model.uuid;
     model.vars = {};

@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
+    <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css">
+    <script src="bower_components/leaflet/dist/leaflet.js"></script>
 
     <!-- build:css styles/main.css -->
     <link rel="stylesheet" href="styles/theme-foundation.css">
@@ -17,41 +19,54 @@
     <!-- endbuild -->
     <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css">
 
-    <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css">
-    <script src="bower_components/leaflet/dist/leaflet.js"></script>
     <script src="bower_components/L.EasyButton/easy-button.js"></script>
     <script src="bower_components/underscore/underscore.js"></script>
 
-    <link rel="stylesheet" href="styles/custom.css">
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/d3/d3.js"></script>
 
+    <script src="bower_components/d3/d3.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <!-- <script src="bower_components/angular-animate/angular-animate.js"></script> -->
+
+    <!-- <link rel="stylesheet" href="styles/angular-animate.css"> -->
+
+    <link rel="stylesheet" href="styles/custom.css">
   </head>
   <body ng-controller="ModelController">
 
     <div class="off-canvas-wrap" data-offcanvas>
       <div class="inner-wrap">
-        <nav class="tab-bar">
-          <section class="middle tab-bar-section">
-            <h1 class="title">San Francisco Community Model</h1>
-          </section>
+        <nav class="top-bar" data-topbar role="navigation">
+          <ul class="title-area">
+            <li class="name">
+              <h1><a href="">San Francisco Community Model</a></h1>
+            </li>
+            <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+            <!-- <li class="toggle-topbar menu-icon"><a href="#"><span></span></a></li> -->
+          </ul>
 
-          <section class="right-small">
-            <a class="right-off-canvas-toggle menu-icon" href="#"><span></span></a>
+          <section class="top-bar-section">
+            <!-- Left Nav Section -->
+            <ul class="left">
+            </ul>
+            <!-- Right Nav Section -->
+            <ul class="right">
+              <li ><a class="menu-icon" href="#" ng-click="settings.view = (settings.view === 'map' ? 'plot' : 'map')"><span><i class="fa fa-area-chart"></i></span></a></li>
+              <li ><a class="right-off-canvas-toggle menu-icon" href="#rightmenu"><span><i class="fa fa-bars"></i></span></a></li>
+            </ul>
+
           </section>
         </nav>
-
-        <aside class="right-off-canvas-menu">
+        <aside class="right-off-canvas-menu" id="rightmenu">
           <form>
-          <ul class="off-canvas-list"   >
-            <li><label> Models <i class="fa fa-refresh" ng-click="updateModels()"></i></label>  </li>
-            <li ng-repeat="model in models" ng-class="{activemodel:(model.uuid == selectedModel)}" >
-              <a href="#" >
-                <input type="checkbox" ng-model="model.loaded" id="check{{model.uuid}}" ng-click="toggleModel(model.uuid)">
-                <span ng-click="toggleSelection(model.uuid)">{{ model.name }}</span>
-              </a>
-            </li>
-          </ul>
+            <ul class="off-canvas-list"   >
+              <li><label> Models <i class="fa fa-refresh" ng-click="updateModels()"></i></label>  </li>
+              <li ng-repeat="model in models" ng-class="{activemodel:(model.uuid == selectedModel)}" >
+                <a href="#" >
+                  <input type="checkbox" ng-model="model.loaded" id="check{{model.uuid}}" ng-click="toggleModel(model.uuid)">
+                  <span ng-click="toggleSelection(model.uuid)">{{ model.name }}</span>
+                </a>
+              </li>
+            </ul>
           </form>
 
           <ul class="off-canvas-list" id="x" ng-if="selectedModel">
@@ -64,21 +79,38 @@
 
         <section class="main-section">
           <!-- content goes here -->
-          <div id="map"></div>
+          <div id="map" ng-class="{blur: settings.view != 'map'}"></div>
+          <div id="plot" ng-if="settings.view==='plot'">
+            <nav class="top-bar" data-topbar role="navigation">
+              <ul class="title-area">
+                <li class="name">
+                  <h1><a href="#">Plot</a></h1>
+                </li>
+              </ul>
+
+              <section class="top-bar-section">
+                <!-- Right Nav Section -->
+                <ul class="right">
+                  <li><a href="#" ng-click="settings.view='map'"><i class="fa fa-close"></i></a></li>
+                </ul>
+
+                <!-- Left Nav Section -->
+                <ul class="left">
+                </ul>
+              </section>
+            </nav>
+          </div>
         </section>
-
-        <a class="exit-off-canvas"></a>
-
       </div>
+      <a class="exit-off-canvas"></a>
     </div>
-
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/foundation/js/foundation.min.js"></script>
     <script src="bower_components/foundation/js/foundation/foundation.offcanvas.js"></script>
-    <script src="scripts/models.js"></script>
     <script src="scripts/load.js"></script>
-    <script src="scripts/map.js"></script>
+    <script src="scripts/models.js"></script>
     <script src="scripts/renders.js"></script>
     <script src="scripts/mmi.js"></script>
+    <script src="scripts/map.js"></script>
   </body>
 </html>

@@ -1,11 +1,11 @@
-/* global angular, connect, disconnect, render, unrender, update, play, pause */
+/* global angular, connect, disconnect, render, unrender, update, play, pause, tracker */
 'use strict';
 
 var app = angular.module('modelApp', []);
 
-var tracker = 'localhost:22222';
 app.controller('ModelController', function($scope, $http) {
 
+    $scope.settings = {view: 'map'};
     // Define update function
     $scope.updateModels = function(){
 

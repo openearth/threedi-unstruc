@@ -1,4 +1,13 @@
+.top-bar {
+    z-index: 9999;
+}
 
+.blur {
+    -webkit-filter: brightness(50%) grayscale(100%) sepia(40%) blur(10px) ;
+    -moz-filter: brightness(50%) grayscale(100%) sepia(40%) blur(10px) ;
+    filter: brightness(50%) grayscale(100%) sepia(40%) blur(10px) ;
+
+}
 .inner-wrap, body, html, .off-canvas-wrap  {
     /* All this is full screen */
     height:100%;
@@ -8,8 +17,18 @@
     /* Firefox + IE9 + Chrome */
     height: calc(100% - 45px);
 }
+#plot {
+    position: absolute;
+    width: calc(100% );
+    height: calc(100% - 45px);
+    background-color: rgba(255, 255, 255, 0.4);
+    top: 45px;
+    padding: 10px;
+    left: 0px;
+    z-index: 1000;
+}
 #map {
-    /* min-height: 300px; */
+    /* height: 800px; */
     height: 100%;
 }
 .activemodel {
@@ -19,14 +38,23 @@
     background-color: black;
 }
 
-path {
+#bathymetry {
+    fill: orange;
+    fill-opacity: 0.3;
+}
+#water {
+    fill: blue;
+    fill-opacity: 0.3;
+}
+
+#map path {
     fill: none;
     fill-opacity: 0.7;
     stroke: white;
     stroke-width:0.1;
     stroke-opacity: 0.5;
 }
-path:hover {
+#map path:hover {
     stroke: black;
     stroke-width: 1;
     stroke-opacity: 1;

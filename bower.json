@@ -9,8 +9,9 @@
         "leaflet": "~0.7.3",
         "underscore": "~1.6.0",
         "L.EasyButton": "",
-        "fontawesome": "~4.1.0",
-        "angular": "~1.2.22",
+        "fontawesome": "~4.2.0",
+        "angular": "~1.2.25",
+        "angular-animate": "~1.2.25",
         "foundation": "~5.3.3"
 
     },

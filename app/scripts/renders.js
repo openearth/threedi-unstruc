@@ -1,4 +1,4 @@
-/* global map */
+/* global map, d3, _ */
 /* exported render, unrender, play, pause, update */
 
 'use strict';
@@ -7,8 +7,22 @@ var unrender = {};
 var update = {};
 var play = {};
 var pause = {};
+render.xbeach = function(model) {
+    var name = 'zs';
+    var svg = d3.select('#plot').append('svg')
+    .attr('viewBox', '0 0 150 100')
+    .attr('width', '800px')
+    .attr('height', '600px');
+
+    svg.append('path').attr('id', 'water');
+    svg.append('path').attr('id', 'bathymetry');
+    
+    
+};
+
 unrender.dflowfm = function(model){
     $('#grid' + model.uuid).remove();
+    // Remove map.on event
 };
 render.dflowfm = function(model){
     var url = model.gridurl;
@@ -73,6 +87,39 @@ render.dflowfm = function(model){
 };
 
 
+update.xbeach = function(model){
+    var name = 'zs';
+    var zs = model.vars['zs'];
+    var zb = model.vars['zb'];
+    var index = d3.range(zs.length);
+    var xdomain = [
+        0,
+        zs.length
+    ];
+    var ydomain = [
+        Math.min(_.min(zs), _.min(zb)),
+        Math.max(_.max(zs), _.max(zb))
+    ];
+        
+    var w = 150,
+        h = 100;
+    
+    var x = d3.scale.linear().domain(xdomain).range([0, w]),
+        y = d3.scale.linear().domain(ydomain).range([h, 0]);
+    var area = d3.svg.area()
+            .x(function(d) { return x(d.x); })
+            .y0(function(d) { return y(d.y0); })
+            .y1(function(d) { return y(d.y1); });
+    
+    var data = _.map(index, function(index){return {y0: zb[index], y1: zs[index], x: index};});
+    d3.select('#plot').select('#water').attr('d', area(data));
+
+    var data = _.map(index, function(index){return {y0: ydomain[0], y1: zb[index], x: index};});
+    d3.select('#plot').select('#bathymetry').attr('d', area(data));
+
+};
+
+
 update.dflowfm = function(model) {
     var name = model.variable;
     var color = d3.scale.linear()
@@ -95,7 +142,18 @@ play.dflowfm = function(model){
     model.ws.send(JSON.stringify({remote: 'play'}));
     model.intervalId = setInterval(model.update, 1000);
 };
+play.xbeach = function(model){
+    console.log('setting model update', model.update );
+    model.ws.send(JSON.stringify({remote: 'play'}));
+    model.intervalId = setInterval(model.update, 1000);
+};
+
+
 pause.dflowfm = function(model){
+    clearInterval(model.intervalId);
+    model.ws.send(JSON.stringify({remote: 'pause'}));
+};
+pause.xbeach = function(model){
     clearInterval(model.intervalId);
     model.ws.send(JSON.stringify({remote: 'pause'}));
 };
