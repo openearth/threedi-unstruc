@@ -5,11 +5,11 @@ var app = angular.module('modelApp', []);
 
 app.controller('ModelController', function($scope, $http) {
 
-    $scope.settings = {view: 'map'};
+    $scope.settings = {view: 'map', tracker: 'mmi.openearth.eu/tracker'};
     // Define update function
     $scope.updateModels = function(){
 
-        var url = 'http://' + tracker + '/models';
+        var url = 'http://' + $scope.tracker + '/models';
         console.log('Updating models from', url);
         $http.get(url).success(function(data) {
             $scope.clearModels();
