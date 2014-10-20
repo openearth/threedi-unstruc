@@ -25,9 +25,15 @@ gulp.task('scripts', function () {
         .pipe($.size());
 });
 
-gulp.task('html', ['styles', 'scripts'], function () {
+gulp.task('json', function () {
+    return gulp.src('app/**/*.json')
+        .pipe($.size());
+});
+
+gulp.task('html', ['styles', 'scripts', 'json'], function () {
     var jsFilter = $.filter('**/*.js');
     var cssFilter = $.filter('**/*.css');
+    var jsonFilter = $.filter('**/*.json');
 
     return gulp.src('app/*.html')
         .pipe($.useref.assets({searchPath: '{.tmp,app}'}))
@@ -37,6 +43,8 @@ gulp.task('html', ['styles', 'scripts'], function () {
         .pipe(cssFilter)
         .pipe($.csso())
         .pipe(cssFilter.restore())
+        .pipe(jsonFilter)
+        .pipe(jsonFilter.restore())
         .pipe($.useref.restore())
         .pipe($.useref())
         .pipe(gulp.dest('dist'))
