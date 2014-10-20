@@ -73,17 +73,15 @@
           </section>
         </nav>
         <aside class="right-off-canvas-menu" id="rightmenu">
-          <form>
-            <ul class="off-canvas-list"   >
-              <li><label> Models <i class="fa fa-refresh" ng-click="updateModels()"></i></label>  </li>
-              <li ng-repeat="model in models" ng-class="{activemodel:(model.uuid == selectedModel)}" >
-                <a href="#" >
-                  <input type="checkbox" ng-model="model.loaded" id="check{{model.uuid}}" ng-click="toggleModel(model.uuid)">
-                  <span ng-click="toggleSelection(model.uuid)">{{ model.name }}</span>
-                </a>
-              </li>
-            </ul>
-          </form>
+          <ul class="off-canvas-list">
+            <li><label> Models <i class="fa fa-refresh" ng-click="updateModels()"></i></label>  </li>
+            <li ng-repeat="model in models" ng-class="{activemodel:(model.uuid == selectedModel)}" >
+              <a href="#" >
+                <input type="checkbox" ng-model="model.loaded" id="check{{model.uuid}}" ng-click="toggleModel(model.uuid)">
+                <span ng-click="toggleSelection(model.uuid)">{{ model.name }}</span>
+              </a>
+            </li>
+          </ul>
 
           <ul class="off-canvas-list" id="x" ng-if="selectedModel">
             <li><label>Variables of {{ getModelByUuid(selectedModel).name }} </label></li>
@@ -118,7 +116,6 @@
           </div>
         </section>
       </div>
-      <a class="exit-off-canvas"></a>
     </div>
 
     <!-- build:js scripts/vendor/jquery.js -->
