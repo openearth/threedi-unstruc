@@ -7,29 +7,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
+    <!-- build:css styles/leaflet.css -->
     <link rel="stylesheet" href="bower_components/leaflet/dist/leaflet.css">
-    <script src="bower_components/leaflet/dist/leaflet.js"></script>
+    <!-- endbuild -->
 
-    <!-- build:css styles/main.css -->
+    <!-- build:js scripts/vendor/leaflet.js -->
+    <script src="bower_components/leaflet/dist/leaflet.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:css styles/theme-foundation.css -->
     <link rel="stylesheet" href="styles/theme-foundation.css">
     <!-- endbuild -->
 
     <!-- build:js scripts/vendor/modernizr.js -->
     <script src="bower_components/modernizr/modernizr.js"></script>
     <!-- endbuild -->
+
+    <!-- build:css styles/font-awesome.css -->
     <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.css">
+    <!-- endbuild -->
 
+    <!-- build:js scripts/vendor/easy-button.js -->
     <script src="bower_components/L.EasyButton/easy-button.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js scripts/vendor/underscore.js -->
     <script src="bower_components/underscore/underscore.js"></script>
+    <!-- endbuild -->
 
-
+    <!-- build:js scripts/vendor/d3.js -->
     <script src="bower_components/d3/d3.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js scripts/vendor/angular.js -->
     <script src="bower_components/angular/angular.js"></script>
-    <!-- <script src="bower_components/angular-animate/angular-animate.js"></script> -->
+    <!-- endbuild -->
 
-    <!-- <link rel="stylesheet" href="styles/angular-animate.css"> -->
-
+    <!-- build:css styles/custom.css -->
     <link rel="stylesheet" href="styles/custom.css">
+    <!-- endbuild -->
   </head>
   <body ng-controller="ModelController">
 
@@ -104,13 +120,25 @@
       </div>
       <a class="exit-off-canvas"></a>
     </div>
+
+    <!-- build:js scripts/vendor/jquery.js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js scripts/vendor/foundation.min.js -->
     <script src="bower_components/foundation/js/foundation.min.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js scripts/vendor/foundation.offcanvas.js -->
     <script src="bower_components/foundation/js/foundation/foundation.offcanvas.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js scripts/main.js -->
     <script src="scripts/load.js"></script>
     <script src="scripts/models.js"></script>
     <script src="scripts/renders.js"></script>
     <script src="scripts/mmi.js"></script>
     <script src="scripts/map.js"></script>
+    <!-- endbuild -->
   </body>
 </html>
