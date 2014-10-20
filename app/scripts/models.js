@@ -9,7 +9,7 @@ app.controller('ModelController', function($scope, $http) {
     // Define update function
     $scope.updateModels = function(){
 
-        var url = 'http://' + $scope.tracker + '/models';
+        var url = 'http://' + $scope.settings.tracker + '/models';
         console.log('Updating models from', url);
         $http.get(url).success(function(data) {
             $scope.clearModels();
@@ -17,7 +17,7 @@ app.controller('ModelController', function($scope, $http) {
             _.each($scope.models, function(model){
                 // append extra variables
                 model.loaded = false;
-                model.gridurl = 'http://' + tracker + '/models/' + model.uuid + '/grid';
+                model.gridurl = 'http://' + $scope.settings.tracker + '/models/' + model.uuid + '/grid';
                 model.callback = function(){$scope.$apply();};
                 model.update = function(){
                     console.log('updating model', model.uuid);

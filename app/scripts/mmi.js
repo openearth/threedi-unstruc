@@ -3,6 +3,7 @@
 
 'use strict';
 function connect(model){
+    var tracker = 'mmi.openearth.eu/tracker';
     model.websocketUrl = 'ws://' + tracker + '/mmi/' + model.uuid;
     model.vars = {};
     console.log('connecting to', model.websocketUrl);
