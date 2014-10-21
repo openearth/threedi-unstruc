@@ -1,15 +1,15 @@
-/* global angular, connect, disconnect, render, unrender, update, play, pause, tracker */
+/* global angular, connect, disconnect, render, unrender, update, play, pause, config */
 'use strict';
 
 var app = angular.module('modelApp', []);
 
 app.controller('ModelController', function($scope, $http) {
 
-    $scope.settings = {view: 'map', tracker: 'mmi.openearth.eu/tracker'};
+    $scope.settings = {view: 'map', tracker: config.tracker};
     // Define update function
     $scope.updateModels = function(){
 
-        var url = 'http://' + $scope.settings.tracker + '/models';
+        var url = $scope.settings.tracker + '/models';
         console.log('Updating models from', url);
         $http.get(url).success(function(data) {
             $scope.clearModels();
@@ -17,7 +17,7 @@ app.controller('ModelController', function($scope, $http) {
             _.each($scope.models, function(model){
                 // append extra variables
                 model.loaded = false;
-                model.gridurl = 'http://' + $scope.settings.tracker + '/models/' + model.uuid + '/grid';
+                model.gridurl = $scope.settings.tracker + '/models/' + model.uuid + '/grid';
                 model.callback = function(){$scope.$apply();};
                 model.update = function(){
                     console.log('updating model', model.uuid);

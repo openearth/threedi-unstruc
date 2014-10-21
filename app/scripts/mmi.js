@@ -1,10 +1,24 @@
-/* global tracker */
+/* global config */
 /* exported connect, disconnect */
 
 'use strict';
 function connect(model){
-    var tracker = 'mmi.openearth.eu/tracker';
-    model.websocketUrl = 'ws://' + tracker + '/mmi/' + model.uuid;
+    // You can't use relative paths with websockets so we have to make an absolute path
+    if (config.tracker.match(/^http/) ) {
+        // absolute url
+        model.websocketUrl = config.tracker.replace(/http/, 'ws');
+    } else {
+        var loc = window.location;
+        if (loc.protocol === 'https:') {
+            model.websocketUrl = 'wss:';
+        } else {
+            model.websocketUrl = 'ws:';
+        }
+        model.websocketUrl += '//' + loc.host;
+    }
+    // add model websocket
+    model.websocketUrl += '/mmi/' + model.uuid;
+
     model.vars = {};
     console.log('connecting to', model.websocketUrl);
     model.ws = new WebSocket(model.websocketUrl);
