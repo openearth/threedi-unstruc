@@ -15,6 +15,7 @@ function connect(model){
             model.websocketUrl = 'ws:';
         }
         model.websocketUrl += '//' + loc.host;
+        model.websocketUrl += config.tracker;
     }
     // add model websocket
     model.websocketUrl += '/mmi/' + model.uuid;
