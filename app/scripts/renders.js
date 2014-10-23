@@ -123,8 +123,8 @@ update.xbeach = function(model){
 update.dflowfm = function(model) {
     var name = model.variable;
     var color = d3.scale.linear()
-            .domain([0.5, 0.8, 1.2])
-            .range(['#2e5d70', 'white', 'orange']);
+            .domain([ 0.6, 1.2])
+            .range(['#2e5d70', 'white']);
 
     d3.selectAll('path')
         .style('fill', function(feature){ 
