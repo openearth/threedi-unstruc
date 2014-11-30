@@ -10,9 +10,9 @@ var pause = {};
 render.xbeach = function(model) {
     var name = 'zs';
     var svg = d3.select('#plot').append('svg')
-    .attr('viewBox', '0 0 150 100')
-    .attr('width', '800px')
-    .attr('height', '600px');
+            .attr('viewBox', '0 0 150 100')
+            .attr('width', '800px')
+            .attr('height', '600px');
 
     svg.append('path').attr('id', 'water');
     svg.append('path').attr('id', 'bathymetry');
@@ -100,7 +100,7 @@ update.xbeach = function(model){
         Math.min(_.min(zs), _.min(zb)),
         Math.max(_.max(zs), _.max(zb))
     ];
-        
+    
     var w = 150,
         h = 100;
     
@@ -114,8 +114,74 @@ update.xbeach = function(model){
     var data = _.map(index, function(index){return {y0: zb[index], y1: zs[index], x: index};});
     d3.select('#plot').select('#water').attr('d', area(data));
 
-    var data = _.map(index, function(index){return {y0: ydomain[0], y1: zb[index], x: index};});
+    data = _.map(index, function(index){return {y0: ydomain[0], y1: zb[index], x: index};});
     d3.select('#plot').select('#bathymetry').attr('d', area(data));
+
+    data = _.map(index, function(index){return {y: zb[index], x: index};});
+
+    var drag = d3.behavior.drag()
+            .origin(function(d) {
+                var origin = {y: y(d.y), x: x(d.x)};
+                return origin;
+            })
+            .on("drag", dragmove)
+            .on("dragend", dragend);
+
+    var svg = d3.select('#plot').select('svg');
+    var circles = svg
+            .selectAll("circle")
+            .data(data)
+            .enter()
+            .append("circle")
+            .attr("r", 1)
+            .attr("cx", function(d){
+                return x(d.x);
+            })
+            .attr("cy", function(d){
+                return y(d.y);
+            })
+            .call(drag);
+
+    function dragmove(d) {
+        // Select the span
+        console.log('dragging', d);
+        var span = Math.round(1.0 + Math.abs(x.invert(d3.event.x) - d.x) );
+        var oldy = data[d.x].y;
+        var newy = y.invert(d3.event.y);
+        var dy = newy - oldy;
+        d3.range(zs.length).map(function(i){
+            // span: 4
+            // 1-1/16, 1-4/16, 1-9/16, 0,
+            //
+            var ratio = Math.max(1 - Math.abs(d.x - data[i].x)/Math.max(span, 1), 0);
+            if (i in data) {
+                data[i].y = data[i].y + dy * ratio;
+            }
+        });
+        drawcircles();
+    }
+
+    function dragend(d) {
+        model.ws.send(JSON.stringify({
+            'set_var': 'zb', 
+            'dtype': 'double', 
+            'shape': [zb.length]
+        }));
+        model.ws.send(new Float64Array(_.values(data)));
+
+    }
+    function drawcircles() {
+        circles
+            .data(data)
+            .attr("cx", function(d){
+                return x(d.x);
+            })
+            .attr("cy", function(d){
+                return y(d.y);
+            });
+    }
+
+    
 
 };
 

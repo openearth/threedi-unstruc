@@ -2,6 +2,9 @@
     z-index: 9999;
 }
 
+.hidden {
+    display: none;
+}
 .blur {
     -webkit-filter: brightness(50%) grayscale(100%) sepia(40%) blur(10px) ;
     -moz-filter: brightness(50%) grayscale(100%) sepia(40%) blur(10px) ;
@@ -47,6 +50,9 @@
     fill-opacity: 0.3;
 }
 
+#plot circle {
+
+}
 #map path {
     fill: none;
     fill-opacity: 0.7;

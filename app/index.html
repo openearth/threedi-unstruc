@@ -94,25 +94,27 @@
         <section class="main-section">
           <!-- content goes here -->
           <div id="map" ng-class="{blur: settings.view != 'map'}"></div>
-          <div id="plot" ng-if="settings.view==='plot'">
-            <nav class="top-bar" data-topbar role="navigation">
-              <ul class="title-area">
-                <li class="name">
-                  <h1><a href="#">Plot</a></h1>
-                </li>
-              </ul>
-
-              <section class="top-bar-section">
-                <!-- Right Nav Section -->
-                <ul class="right">
-                  <li><a href="#" ng-click="settings.view='map'"><i class="fa fa-close"></i></a></li>
+          <div ng-class="{hidden: settings.view != 'plot'}">
+            <div id="plot">
+              <nav class="top-bar" data-topbar role="navigation">
+                <ul class="title-area">
+                  <li class="name">
+                    <h1><a href="#">Plot</a></h1>
+                  </li>
                 </ul>
 
-                <!-- Left Nav Section -->
-                <ul class="left">
-                </ul>
-              </section>
-            </nav>
+                <section class="top-bar-section">
+                  <!-- Right Nav Section -->
+                  <ul class="right">
+                    <li><a href="#" ng-click="settings.view='map'"><i class="fa fa-close"></i></a></li>
+                  </ul>
+
+                  <!-- Left Nav Section -->
+                  <ul class="left">
+                  </ul>
+                </section>
+              </nav>
+            </div>
           </div>
         </section>
       </div>
