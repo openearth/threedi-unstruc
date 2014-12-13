@@ -50,9 +50,21 @@
     fill-opacity: 0.3;
 }
 
-#plot circle {
+#plot circle:hover {
+    fill-opacity: 0.2;
 
 }
+#plot circle {
+    fill-opacity: 0.0;
+
+}
+
+#plot circle.active {
+    fill-opacity: 0.2;
+
+}
+
+
 #map path {
     fill: none;
     fill-opacity: 0.7;

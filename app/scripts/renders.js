@@ -97,8 +97,9 @@ update.xbeach = function(model){
         zs.length
     ];
     var ydomain = [
-        Math.min(_.min(zs), _.min(zb)),
-        Math.max(_.max(zs), _.max(zb))
+        -0.3,1.0
+        // Math.min(_.min(zs), _.min(zb)),
+        // Math.max(_.max(zs), _.max(zb))
     ];
     
     var w = 150,
@@ -140,6 +141,9 @@ update.xbeach = function(model){
             .attr("cy", function(d){
                 return y(d.y);
             })
+            .attr("id", function(d,i){
+                return "circle" + i;
+            })
             .call(drag);
 
     function dragmove(d) {
@@ -149,6 +153,7 @@ update.xbeach = function(model){
         var oldy = data[d.x].y;
         var newy = y.invert(d3.event.y);
         var dy = newy - oldy;
+        d3.selectAll('circle').classed({active:false});
         d3.range(zs.length).map(function(i){
             // span: 4
             // 1-1/16, 1-4/16, 1-9/16, 0,
@@ -156,6 +161,10 @@ update.xbeach = function(model){
             var ratio = Math.max(1 - Math.abs(d.x - data[i].x)/Math.max(span, 1), 0);
             if (i in data) {
                 data[i].y = data[i].y + dy * ratio;
+
+            }
+            if (ratio>0) {
+                d3.select('#circle' + i).classed({active: true});
             }
         });
         drawcircles();
@@ -167,8 +176,9 @@ update.xbeach = function(model){
             'dtype': 'double', 
             'shape': [zb.length]
         }));
-        model.ws.send(new Float64Array(_.values(data)));
-
+        console.log("sending", _.map(data, function(d){return d.y;}), "of size", zb.length);
+        model.ws.send(new Float64Array(_.map(data, function(d){return d.y;})));
+        d3.selectAll('circle').classed({active: false});
     }
     function drawcircles() {
         circles
