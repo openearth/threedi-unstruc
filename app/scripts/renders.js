@@ -97,9 +97,8 @@ update.xbeach = function(model){
         zs.length
     ];
     var ydomain = [
-        -0.3,1.0
-        // Math.min(_.min(zs), _.min(zb)),
-        // Math.max(_.max(zs), _.max(zb))
+        Math.min(_.min(zs), _.min(zb)),
+        Math.max(_.max(zs), _.max(zb))
     ];
     
     var w = 150,
