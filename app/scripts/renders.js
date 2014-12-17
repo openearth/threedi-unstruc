@@ -15,8 +15,9 @@ render.xbeach = function(model) {
             .attr('height', '600px');
 
     svg.append('path').attr('id', 'water');
+    svg.append('path').attr('id', 'waves');
     svg.append('path').attr('id', 'bathymetry');
-    
+    svg.append('path').attr('id', 'initial');
     
 };
 
@@ -90,6 +91,7 @@ render.dflowfm = function(model){
 update.xbeach = function(model){
     var name = 'zs';
     var zs = model.vars['zs'];
+    var H = model.vars['H'];
     var zb = model.vars['zb'];
     var zs0 = model.vars['zs0'];
     var zb0 = model.vars['zb0'];
@@ -114,8 +116,8 @@ update.xbeach = function(model){
             .y0(function(d) { return y(d.y0); })
             .y1(function(d) { return y(d.y1); });
     
-    var data = _.map(index, function(index){return {y0: zb[index], y1: zs[index], x: index};});
-    // Reset
+    // Add water 
+    var data = _.map(index, function(index){return {y0: zb[index], y1: zs[index] + ((H == null) ? 0 : 0.5 * H[index]), x: index};});
     d3.select('#plot').select('#water')
         .attr('d', area(data))
         .on('click', function(d){
@@ -128,6 +130,14 @@ update.xbeach = function(model){
             model.ws.send(model.vars['zs0']);
 
         });
+
+    // add waves
+    data = _.map(index, function(index){return {y0: zs[index], y1: zs[index] + ((H == null) ? 0 : 0.5 * H[index]), x: index};});
+    d3.select('#plot').select('#waves')
+        .attr('d', area(data));
+
+    // Add bathymetry
+    data = _.map(index, function(index){return {y0: ydomain[0], y1: zb[index], x: index};});
     d3.select('#plot').select('#bathymetry')
         .attr('d', area(data))
         .on('click', function(d){
@@ -140,11 +150,22 @@ update.xbeach = function(model){
 
         });
 
-    data = _.map(index, function(index){return {y0: ydomain[0], y1: zb[index], x: index};});
-    d3.select('#plot').select('#bathymetry').attr('d', area(data));
-
+    // add a line for initial profile
+    var line = d3.svg.line()
+            .x(function(d) { return x(d.x); })
+            .y(function(d) { return y(d.y); });
+    
     data = _.map(index, function(index){return {y: zb[index], x: index};});
+    d3.select('#plot').select('#initial')
+        .attr('d', line(data));
 
+    // Add the bathymetry
+    // data = _.map(index, function(index){return {y0: ydomain[0], y1: zb[index], x: index};});
+    // d3.select('#plot').select('#bathymetry').attr('d', area(data));
+
+    // data = _.map(index, function(index){return {y: zb[index], x: index};});
+
+    // Add behaviour
     var drag = d3.behavior.drag()
             .origin(function(d) {
                 var origin = {y: y(d.y), x: x(d.x)};

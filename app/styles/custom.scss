@@ -45,9 +45,21 @@
     fill: orange;
     fill-opacity: 0.3;
 }
+
+#initial {
+    stroke: brown;
+    fill: none;
+    stoke-width: 1px;
+    stroke-opacity: 0.5;
+}
+
 #water {
     fill: blue;
     fill-opacity: 0.3;
+}
+#waves {
+    fill: blue;
+    fill-opacity: 0.8;
 }
 
 #plot circle:hover {
