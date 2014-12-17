@@ -91,14 +91,17 @@ update.xbeach = function(model){
     var name = 'zs';
     var zs = model.vars['zs'];
     var zb = model.vars['zb'];
+    var zs0 = model.vars['zs0'];
+    var zb0 = model.vars['zb0'];
+
     var index = d3.range(zs.length);
     var xdomain = [
         0,
         zs.length
     ];
     var ydomain = [
-        Math.min(_.min(zs), _.min(zb)),
-        Math.max(_.max(zs), _.max(zb))
+        Math.min(_.min(zs0), _.min(zb0)),
+        Math.max(_.max(zs0), _.max(zb0))
     ];
     
     var w = 150,
@@ -112,7 +115,30 @@ update.xbeach = function(model){
             .y1(function(d) { return y(d.y1); });
     
     var data = _.map(index, function(index){return {y0: zb[index], y1: zs[index], x: index};});
-    d3.select('#plot').select('#water').attr('d', area(data));
+    // Reset
+    d3.select('#plot').select('#water')
+        .attr('d', area(data))
+        .on('click', function(d){
+            model.ws.send(JSON.stringify({
+                'set_var': 'zs', 
+                'dtype': 'double', 
+                'shape': [zs.length]
+            }));
+            console.log('sending', model.vars['zs0']);
+            model.ws.send(model.vars['zs0']);
+
+        });
+    d3.select('#plot').select('#bathymetry')
+        .attr('d', area(data))
+        .on('click', function(d){
+            model.ws.send(JSON.stringify({
+                'set_var': 'zb', 
+                'dtype': 'double', 
+                'shape': [zb.length]
+            }));
+            model.ws.send(model.vars['zb0']);
+
+        });
 
     data = _.map(index, function(index){return {y0: ydomain[0], y1: zb[index], x: index};});
     d3.select('#plot').select('#bathymetry').attr('d', area(data));
@@ -168,7 +194,8 @@ update.xbeach = function(model){
         });
         drawcircles();
     }
-
+    
+    
     function dragend(d) {
         model.ws.send(JSON.stringify({
             'set_var': 'zb', 
